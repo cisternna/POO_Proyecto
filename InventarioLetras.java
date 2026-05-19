@@ -138,21 +138,21 @@ public class InventarioLetras{
                 resultado.append(letraActual);
             }
         }
-        resultado.append("]")
+        resultado.append("]");
         // toString() necesario para que el dato a retornar sea tipo String
         return resultado.toString();
 
     }
 
     public InventarioLetras add(InventarioLetras otro) {
-
+        return null;
     }
 
     public InventarioLetras amplifies(int n) {
-
+        return null;
     }
 
     public InventarioLetras subtract(InventarioLetras otro) {
-
+        return null;
     }
 }
