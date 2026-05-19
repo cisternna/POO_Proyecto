@@ -54,11 +54,29 @@ public class InventarioLetras{
     }
 
     public String encriptarPalabra(String palabra, int desplazamiento) {
-
+        // Construimos la palabra encriptada agregando las letras una por una
+        StringBuilder palabraEncriptada = new StringBuilder("");
+        
+        for(int i = 0; i < palabra.length(); i++) {
+            char letra = palabra.charAt(i); // Reconocemos la letra
+            // Encriptamos llamando al metodo correspondiente y agregamos al StringBuilder
+            palabraEncriptada.append(encriptarCesar(letra));    
+        }
+        // toString() necesario para que el dato a retornar sea tipo String
+        return palabraEncriptada.toString();
     }
 
     public String desencriptarPalabra(String palabra, int desplazamiento) {
-
+        // Construimos la palabra desencriptada agregando las letras una por una
+        StringBuilder palabraDesencriptada = new StringBuilder("");
+        
+        for(int i = 0; i < palabra.length(); i++) {
+            char letra = palabra.charAt(i); // Reconocemos la letra
+            // Desencriptamos llamando al metodo correspondiente y agregamos al StringBuilder
+            palabraDesencriptada.append(desencriptarCesar(letra)); 
+        }
+        // toString() necesario para que el dato a retornar sea tipo String
+        return palabraDesencriptada.toString();
     }
 
     public int get(char letra) {
@@ -73,6 +91,29 @@ public class InventarioLetras{
     }
 
     public void set(char letra, int valor) {
+        letra = Character.toLowerCase(letra);   // char no es un objeto por lo que usamos un wrapper
+        if (!(letra >= 'a' && letra <= 'z')) {  // Comprobamos si esta en el abcedario
+            throw new IllegalArgumentException("Caracter no valido!"); // Excepcion si no esta
+        }
+        if (valor < 0) { // Si el valor es negativo arrojamos una excepcion
+            throw new IllegalArgumentException("Caracter no valido!");
+        }
+
+        int indice = letra - 'a';           // Indice de la letra
+        int valorAnterior = abc[indice];    // Guardamos el valor anterior de la letra
+        
+        totalCount = totalCount - valorAnterior + valor; // Actualizamos totalCount
+        
+        // En caso de que la letra sumara al contador pero ahora su valor sea 0
+        if (valorAnterior > 0 && valor == 0) {  
+            nonZeroCount--;
+        }
+        // En caso de que la letra no sumara al contador pero ahora su valor es mayor a 0
+        if (valorAnterior == 0 && valor > 0) {
+            nonZeroCount++;
+        }
+
+        abc[indice] = valor;    // Actualizamos el valor en abc
 
     }
 
@@ -84,8 +125,23 @@ public class InventarioLetras{
         return nonZeroCount == 0;
     }
 
+    @Override   // Sobreescribimos toString() default
     public String toString() {
-        return "TERMINAR ESTE METODO";
+        // Construimos el resultado (retorno) agregando las letras a un StringBuilder
+        StringBuilder resultado = new StringBuilder("[");
+        
+        for(int i = 0; i < abc.length; i++) {   // Recorremos el abc
+            char letraActual = (char) ('a' + i); // Reconocemos la letra
+            
+            // Agregamos las letras en su totalidad al resultado
+            for(int j = 0; j < abc[i] ; j++) { // abc[i] = cantidad de letras de esa letra
+                resultado.append(letraActual);
+            }
+        }
+        resultado.append("]")
+        // toString() necesario para que el dato a retornar sea tipo String
+        return resultado.toString();
+
     }
 
     public InventarioLetras add(InventarioLetras otro) {
