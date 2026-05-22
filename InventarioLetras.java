@@ -80,6 +80,7 @@ public class InventarioLetras{
     }
 
     public int get(char letra) {
+        // Devuelve el recuento de la letra (sin distinguir mayúsculas/minúsculas)
         letra = Character.toLowerCase(letra);   // char no es un objeto por lo que usamos un wrapper
         if (!(letra >= 'a' && letra <= 'z')) {  // Comprobamos si esta en el abcedario
             throw new IllegalArgumentException("Caracter no valido!"); // Excepcion si no esta
@@ -91,6 +92,7 @@ public class InventarioLetras{
     }
 
     public void set(char letra, int valor) {
+        // Fija el recuento de la letra
         letra = Character.toLowerCase(letra);   // char no es un objeto por lo que usamos un wrapper
         if (!(letra >= 'a' && letra <= 'z')) {  // Comprobamos si esta en el abcedario
             throw new IllegalArgumentException("Caracter no valido!"); // Excepcion si no esta
@@ -118,15 +120,18 @@ public class InventarioLetras{
     }
 
     public int size() {
+        // Devuelve la suma de todos los recuentos
         return totalCount;
     }
 
     public boolean isEmpty() {
+        // Devuelve true si todos los recuentos son 0
         return nonZeroCount == 0;
     }
 
     @Override   // Sobreescribimos toString() default
     public String toString() {
+        // Devuelve una representación como "[aaaablm]"
         // Construimos el resultado (retorno) agregando las letras a un StringBuilder
         StringBuilder resultado = new StringBuilder("[");
         
@@ -145,14 +150,53 @@ public class InventarioLetras{
     }
 
     public InventarioLetras add(InventarioLetras otro) {
-        return null;
+        // Suma dos inventarios, retorna uno nuevo sin modificar los originales
+
+        // Nuevo objeto inventario vacio
+        InventarioLetras resultado = new InventarioLetras("");
+
+        for (int i = 0; i < 26; i++) {  // Recorremos el abc
+            int sumaTotal = this.abc[i] + otro.abc[i];  // Sumamos nuestro abc con el otro abc
+            char letraActual = (char) ('a' + i);        // Reconocemos la letra
+            // Guardamos la suma en el nuevo Inventario usando el metodo set
+            resultado.set(letraActual, sumaTotal);      
+        }
+        return resultado;
     }
 
     public InventarioLetras amplifies(int n) {
-        return null;
+        // Multiplica todos los recuentos por n, retorna un nuevo inventario
+
+        // Nuevo objeto inventario vacio
+        InventarioLetras resultado = new InventarioLetras("");
+
+        for (int i = 0; i < 26; i++) {  // Recorremos el abc
+            int valorNuevo = this.abc[i] * n;  // Multiplicamos los recuentos por n
+            char letraActual = (char) ('a' + i);        // Reconocemos la letra
+            // Guardamos la multiplicacion en el nuevo Inventario usando el metodo set
+            resultado.set(letraActual, valorNuevo);     
+        }
+        return resultado;
     }
 
-    public InventarioLetras subtract(InventarioLetras otro) {
-        return null;
+    public InventarioLetras subtract(InventarioLetras otro) {   
+        // Resta otro inventario
+
+        // Nuevo objeto inventario vacio
+        InventarioLetras resultado = new InventarioLetras("");
+        for (int i = 0; i < 26; i++) {  // Recorremos el abc
+            int resta = this.abc[i] - otro.abc[i];   // Restamos el otro abc a nuestro abc
+        
+            if (resta < 0) {
+                return null;
+            }  // Retornamos null si algun resultado es negativo
+
+            char letraActual = (char) ('a' + i);    // Reconocemos la letra
+            // Guardamos la multiplicacion en el nuevo Inventario usando el metodo set
+            resultado.set(letraActual, resta);      
+        }
+        return resultado;
     }
+
 }
+
